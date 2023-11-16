@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
+    "start:prometheus": "docker run --rm -v ${PWD}/prometheus.yml:/prometheus/prometheus.yml -p 9090:9090 prom/prometheus --enable-feature=otlp-write-receive",
     "start": "npx nodemon --require ./instrumentation.ts app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +15,7 @@
     "@opentelemetry/api": "1.7.0",
     "@opentelemetry/auto-instrumentations-node": "0.40.0",
     "@opentelemetry/exporter-metrics-otlp-proto": "0.45.1",
+    "@opentelemetry/exporter-prometheus": "0.45.1",
     "@opentelemetry/exporter-trace-otlp-proto": "0.45.1",
     "@opentelemetry/exporter-zipkin": "1.18.1",
     "@opentelemetry/resources": "1.18.1",
