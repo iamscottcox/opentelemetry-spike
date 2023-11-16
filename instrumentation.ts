@@ -4,9 +4,8 @@ import { ZipkinExporter } from "@opentelemetry/exporter-zipkin";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 
 const sdk = new NodeSDK({
-  traceExporter: new ZipkinExporter({
-    serviceName: "opentelemetry-spike",
-  }),
+  serviceName: "opentelemetry-spike", // This is required for Zipkin
+  traceExporter: new ZipkinExporter(),
   metricReader: new PrometheusExporter({
     port: 9464, // optional - default is 9464
   }),
