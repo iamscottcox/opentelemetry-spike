@@ -1,20 +1,28 @@
 import { trace } from "@opentelemetry/api";
+import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import express, { Express } from "express";
 import { rollTheDice } from "./dice";
 
 const tracer = trace.getTracer("dice-server", "0.1.0");
 
 const doWork = () => {
-  const span1 = tracer.startSpan("work-1");
-  console.log("span 1");
-  const span2 = tracer.startSpan("work-2");
-  console.log("span 2");
-  const span3 = tracer.startSpan("work-3");
-  console.log("span 3");
+  tracer.startActiveSpan("app.doWork", (activeSpan) => {
+    activeSpan.setAttribute(SemanticAttributes.CODE_FUNCTION, "doWork");
+    activeSpan.setAttribute(SemanticAttributes.CODE_FILEPATH, __filename);
 
-  span1.end();
-  span2.end();
-  span3.end();
+    const span1 = tracer.startSpan("work-1");
+    console.log("span 1");
+    const span2 = tracer.startSpan("work-2");
+    console.log("span 2");
+    const span3 = tracer.startSpan("work-3");
+    console.log("span 3");
+
+    span1.end();
+    span2.end();
+    span3.end();
+
+    activeSpan.end();
+  });
 };
 
 const PORT: number = parseInt(process.env.PORT || "8080");
