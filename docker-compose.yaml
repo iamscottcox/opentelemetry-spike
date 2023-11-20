@@ -1,0 +1,35 @@
+version: "3"
+services:
+  # Collector
+  collector:
+    # environment:
+    #   - OTEL_EXPORTER_OTLP_ENDPOINT="${OTEL_EXPORTER_OTLP_ENDPOINT}:4318/"
+    #   - NEW_RELIC_LICENSE_KEY="${NEW_RELIC_LICENSE_KEY}"
+    image: otel/opentelemetry-collector-contrib:0.53.0
+    #    image: otel/opentelemetry-collector-contrib:latest
+    command: ["--config=/conf/collector-config.yaml"]
+    volumes:
+      - ./collector-config.yaml:/conf/collector-config.yaml
+    env_file:
+      - ./.env
+    ports:
+      - "9464:9464"
+      - "4317:4317"
+      - "4318:4318"
+    depends_on:
+      - zipkin-all-in-one
+
+  # Zipkin
+  zipkin-all-in-one:
+    image: openzipkin/zipkin:latest
+    ports:
+      - "9411:9411"
+
+  # Prometheus
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"

@@ -4,9 +4,10 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start:prometheus": "docker run --rm -v ${PWD}/prometheus.yml:/prometheus/prometheus.yml -p 9090:9090 --name prometheus prom/prometheus --enable-feature=otlp-write-receive",
-    "start:zipkin": "docker run --rm -p 9411:9411 --name zipkin openzipkin/zipkin",
-    "start:collector": "docker run -p 4317:4317 -p 4318:4318 --name otlp-collector --rm -v $(pwd)/collector-config.yaml:/etc/otelcol/config.yaml otel/opentelemetry-collector",
+    "run:metrics": "npx ts-node ./metrics.ts",
+    "run:tracing": "npx ts-node ./tracing.ts",
+    "start:docker": "docker-compose down && docker-compose up",
+    "start:dockerd": "docker-compose down && docker-compose up -d",
     "start": "npx nodemon --require ./instrumentation.ts app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

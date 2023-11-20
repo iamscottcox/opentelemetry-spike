@@ -1,13 +1,11 @@
 import { getNodeAutoInstrumentations } from "@opentelemetry/auto-instrumentations-node";
-import { PrometheusExporter } from "@opentelemetry/exporter-prometheus";
-import { ZipkinExporter } from "@opentelemetry/exporter-zipkin";
+import { Resource } from "@opentelemetry/resources";
 import { NodeSDK } from "@opentelemetry/sdk-node";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 
 const sdk = new NodeSDK({
-  serviceName: "opentelemetry-spike", // This is required for Zipkin
-  traceExporter: new ZipkinExporter(),
-  metricReader: new PrometheusExporter({
-    port: 9464, // optional - default is 9464
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: "opentelemetry-spike",
   }),
   instrumentations: [getNodeAutoInstrumentations()],
 });
