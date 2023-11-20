@@ -33,3 +33,11 @@ Head to [`localhost:8080/rolldice?rolls=10`](localhost:8080/rolldice?rolls=10) o
 ## Produce tracing
 
 `npm run tracing`
+
+## View Zipkin
+
+Head to [http://localhost:9411/zipkin/](http://localhost:9411/zipkin/) to view the Zipkin GUI and query traces
+
+## View Prometheus
+
+Head to [http://localhost:9090/](http://localhost:9090/) to view the Prometheus GUI and query metrics. NB: It may take some time for metrics to propagate in Prometheus due to how the OTEL collector batches the data it sends.
