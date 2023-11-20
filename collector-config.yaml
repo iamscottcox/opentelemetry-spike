@@ -3,17 +3,38 @@ receivers:
     protocols:
       grpc:
       http:
+        cors:
+          allowed_origins:
+            - http://*
+            - https://*
+
 exporters:
-  debug:
-    verbosity: detailed
+  zipkin:
+    endpoint: "http://zipkin-all-in-one:9411/api/v2/spans"
+  prometheus:
+    endpoint: "0.0.0.0:9464"
+  otlp:
+    endpoint: "https://otlp.eu01.nr-data.net:4318"
+    headers:
+      api-key: $NEW_RELIC_LICENSE_KEY
+
+processors:
+  batch:
+
 service:
+  telemetry:
+    logs:
+      level: "debug"
   pipelines:
     traces:
       receivers: [otlp]
-      exporters: [debug]
+      exporters: [zipkin, otlp]
+      processors: [batch]
     metrics:
       receivers: [otlp]
-      exporters: [debug]
+      exporters: [prometheus, otlp]
+      processors: [batch]
     logs:
       receivers: [otlp]
-      exporters: [debug]
+      exporters: [otlp]
+      processors: [batch]
