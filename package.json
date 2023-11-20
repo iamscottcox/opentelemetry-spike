@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "run:metrics": "npx ts-node ./metrics.ts",
-    "run:tracing": "npx ts-node ./tracing.ts",
+    "metrics": "npx ts-node ./metrics.ts",
+    "tracing": "npx ts-node ./tracing.ts",
     "start:docker": "docker-compose down && docker-compose up",
     "start:dockerd": "docker-compose down && docker-compose up -d",
     "start": "npx nodemon --require ./instrumentation.ts app.ts",
